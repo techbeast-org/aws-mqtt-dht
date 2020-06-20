@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>Test WS mqtt.js</title>
+    <script src="https://unpkg.com/mqtt@4.1.0/dist/mqtt.min.js"></script>  <!---add mqtt.js jacascript-->
+  </head>
+  <body>
+    <meta name="viewport" content="width=500, initial-scale=1"> <!--This line of code is for mobile responsive -->
+    <h1 align="center">MQTT over Websocket for IoT applications</h1>
+    <h2 align="center"> Publish and Subscibe your DHT 11/22 sensor data via your broker at AWS </h1>
+    <div class="BorderMargin" align="center">
+     <image src = 'https://www.circuitbasics.com/wp-content/uploads/2015/12/How-to-Setup-the-DHT11-on-the-Raspberry-Pi-Three-pin-DHT11-Wiring-Diagram.png' alt="LED" style="width:500px;height:250px;">
+    
+        <h3><span id="sensor-value"></span></h3> <!--display your sensor data -->
+      
+        <p align="center">Check out<a href="https://techbeast.org"> Techbeast.org</a> for more fun Learning !!</p>
+
+    </div>
+
+    <script>
+        
+      var client = mqtt.connect("ws://AWS-EC2-INSTANCE-IP ADDRESS:9001", {   // replace the IP with your AWS instance public IP address
+        username: "username",  // your broker username
+        password: "password",   // your broker password
+      }); 
+
+
+        client.subscribe("mqtt/dht") //your mqtt topic
+        client.on("message", function (topic, payload) {
+             var output = document.getElementById("sensor-value");
+         output.innerHTML = JSON.parse(payload); 
+        
+         })
+
+    </script>
+  </body>
+</html>
+
+
+
